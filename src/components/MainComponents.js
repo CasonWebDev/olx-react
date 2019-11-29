@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Template = styled.div`
   display: flex;
@@ -17,6 +17,9 @@ export const PageTitle = styled.h1`
 
 export const PageArea = styled.div`
   width: 1000px;
+  h2 {
+    margin-bottom: 1.5em;
+  }
 `;
 
 export const PageBody = styled.div``;
