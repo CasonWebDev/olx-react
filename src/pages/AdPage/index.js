@@ -3,9 +3,10 @@ import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import useApi from "helpers/OlxApi";
 import { ColAd as Col, Heading1, EmptyBox } from "./styled";
-import { Row, Image, Button } from "react-bootstrap";
+import { Row, Image, Button, Breadcrumb } from "react-bootstrap";
 import { Slide } from "react-slideshow-image";
 import Moment from "react-moment";
+import AdItem from "components/partials/AdItem";
 
 import { PageContainer, PageArea } from "components/MainComponents";
 
@@ -27,6 +28,22 @@ const Page = () => {
   return (
     <>
       <PageContainer>
+        <Row>
+          {adInfo.category && (
+            <Breadcrumb>
+              <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+              <Breadcrumb.Item href={`/ads?state=${adInfo.stateName}`}>
+                {adInfo.stateName}
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                href={`/ads?state=${adInfo.stateName}&cat=${adInfo.category.slug}`}
+              >
+                {adInfo.category.name}
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>{adInfo.title}</Breadcrumb.Item>
+            </Breadcrumb>
+          )}
+        </Row>
         <PageArea>
           <Row>
             <Col className="box" md={7}>
@@ -51,6 +68,16 @@ const Page = () => {
                 <Skeleton />
               )}
               <p>{adInfo.description || <Skeleton count={4} />}</p>
+              {adInfo.others && (
+                <>
+                  <h4>Outras ofertas do vendedor</h4>
+                  <Row>
+                    {adInfo.others.map((i, k) => (
+                      <AdItem key={k} data={i} />
+                    ))}
+                  </Row>
+                </>
+              )}
             </Col>
             <Col md={{ span: 4, offset: 1 }}>
               <Col className="boxRight">
@@ -77,7 +104,12 @@ const Page = () => {
               </Col>
               <EmptyBox>
                 {adInfo.userInfo ? (
-                  <Button href={`mailto:${adInfo.userInfo.email}`} variant="primary" size="lg" block>
+                  <Button
+                    href={`mailto:${adInfo.userInfo.email}`}
+                    variant="primary"
+                    size="lg"
+                    block
+                  >
                     Contatar o vendedor
                   </Button>
                 ) : (

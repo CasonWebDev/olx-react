@@ -1,37 +1,25 @@
-import React, { useState, useEffect } from "react";
-import useApi from "helpers/OlxApi";
-import { Row } from "react-bootstrap";
+import React from "react";
+import { useSelector } from "react-redux";
+import { Container } from "./styled";
 
 import AdItem from "components/partials/AdItem";
 
 const AdItens = () => {
-  const api = useApi();
-
-  const [adList, setAdList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const adList = useSelector(state => state.anuncios);
 
   let templateLoading = [1, 2, 3, 4, 5, 6, 7, 8];
 
-  useEffect(() => {
-    const getRecentAds = async () => {
-      const json = await api.getAds({
-        sort: "desc",
-        limit: 8
-      });
-      setLoading(false);
-      setAdList(json.ads);
-    };
-    getRecentAds();
-  }, []);
-
   return (
-    <Row>
-      {adList.map((i, k) => (
-        <AdItem key={k} data={i} />
-      ))}
-      {loading &&
+    <Container colums={3}>
+      {adList[1] === 0 ? (
+        <h5>Nenhum anúncio encontrado com esses critérios</h5>
+      ) : (
+        adList[0].map((i, k) => <AdItem key={k} data={i} />)
+      )}
+
+      {adList[1] === undefined &&
         templateLoading.map((i, k) => <AdItem key={k} data="loading" />)}
-    </Row>
+    </Container>
   );
 };
 

@@ -6,13 +6,16 @@ export const ColAd = styled(Col)`
     border: 1px solid #cccccc;
     padding: 20px;
     border-radius: 5px;
+    h4 {
+      margin: 1em 0;
+    }
   }
   &.boxRight {
     border: 1px solid #cccccc;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 1em;
-    .info{
+    .info {
       color: #cccccc;
     }
   }

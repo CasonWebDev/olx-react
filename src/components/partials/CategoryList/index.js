@@ -25,7 +25,7 @@ const CategoryList = () => {
     <Row>
       {categoryList.map((i, k) => (
         <Col md="3" key={k}>
-          <Link to={`ads/cat=${i.slug}`}>
+          <Link to={`ads?cat=${i.slug}`}>
             <img src={i.img} alt="" />
             <span className="tituloCat">{i.name}</span>
           </Link>

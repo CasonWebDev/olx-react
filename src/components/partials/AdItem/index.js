@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Col } from "react-bootstrap";
 import Skeleton from "react-loading-skeleton";
 import { CardItem as Card } from "./styled";
 
@@ -23,20 +22,18 @@ const AdItem = props => {
   }
 
   return (
-    <Col md="3">
-      <Card>
-        {props.data.image ? cardImg : <Skeleton width={225} height={225} />}
-        <Card.Body>
-          <Card.Title>{props.data.title || <Skeleton />}</Card.Title>
-          <Card.Text>{props.data.price ? price : <Skeleton />}</Card.Text>
-          {props.data.id ? (
-            <Link to={`/ad/${props.data.id}`}>Veja mais</Link>
-          ) : (
-            <Skeleton />
-          )}
-        </Card.Body>
-      </Card>
-    </Col>
+    <Card>
+      {props.data.image ? cardImg : <Skeleton height={130} />}
+      <Card.Body>
+        <Card.Title>{props.data.title || <Skeleton />}</Card.Title>
+        <Card.Text>{props.data.price ? price : <Skeleton />}</Card.Text>
+        {props.data.id ? (
+          <Link to={`/ad/${props.data.id}`}>Veja mais</Link>
+        ) : (
+          <Skeleton />
+        )}
+      </Card.Body>
+    </Card>
   );
 };
 

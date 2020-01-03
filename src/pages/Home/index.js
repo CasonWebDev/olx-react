@@ -1,14 +1,31 @@
-import React from "react";
-
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { PageContainer, PageArea } from "components/MainComponents";
 import { Link } from "react-router-dom";
 import { SearchArea } from "./styled";
+
+import useApi from "helpers/OlxApi";
+import * as AnunciosActions from "reducers/anuncios/actions";
 
 import SearchBox from "components/partials/SearchBox";
 import CategoryList from "components/partials/CategoryList";
 import AdItens from "components/partials/AdItens";
 
 const Page = () => {
+  const api = useApi();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getRecentAds = async () => {
+      const json = await api.getAds({
+        sort: "desc",
+        limit: 8
+      });
+      dispatch(AnunciosActions.listarAnuncios(json.ads, json.total));
+    };
+    getRecentAds();
+  }, []);
+
   return (
     <>
       <SearchArea>
