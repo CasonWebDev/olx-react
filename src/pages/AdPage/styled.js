@@ -1,5 +1,11 @@
 import styled from "styled-components";
-import { Col } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
+
+export const OthersAds = styled(Row)`
+  display: grid;
+  grid-template-columns: ${props => `repeat(${props.columns}, 1fr)`};
+  grid-gap: 1em;
+`;
 
 export const ColAd = styled(Col)`
   &.box {

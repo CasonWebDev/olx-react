@@ -5,7 +5,8 @@ import { useDispatch } from "react-redux";
 import * as AnunciosActions from "reducers/anuncios/actions";
 import { Container, CategoriesList } from "./styled";
 import { Form } from "react-bootstrap";
-import useQueryString from "utils/query";
+import qs from "qs";
+import { getAdsList } from "utils/query";
 
 import useApi from "helpers/OlxApi";
 
@@ -13,46 +14,34 @@ const Page = () => {
   const api = useApi();
   const dispatch = useDispatch();
   const history = useHistory();
-  const query = useQueryString();
+  const { q, cat, state, page } = qs.parse(history.location.search);
 
-  const [q, setQ] = useState(query.get("q"));
-  const [cat, setCat] = useState(query.get("cat"));
-  const [state, setState] = useState(query.get("state"));
+  const [qStr, setQ] = useState(q);
+  const [catStr, setCat] = useState(cat);
+  const [stateStr, setState] = useState(state);
 
   const [stateList, setStateList] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const getAdsList = async () => {
-    dispatch(AnunciosActions.listarAnuncios([]));
-    const json = await api.getAds({
-      sort: "desc",
-      limit: 9,
-      q,
-      cat,
-      state
-    });
-    dispatch(AnunciosActions.listarAnuncios(json.ads, json.total));
-  };
-
   useEffect(() => {
-    let queryString = [];
-
-    if (q) {
-      queryString.push(`q=${q}`);
-    }
-    if (cat) {
-      queryString.push(`cat=${cat}`);
-    }
-    if (state) {
-      queryString.push(`state=${state}`);
-    }
+    let queryString = qs.stringify({
+      q: qStr,
+      cat: catStr,
+      state: stateStr,
+      page
+    });
 
     history.replace({
-      search: `?${queryString.join("&")}`
+      search: `?${queryString}`
     });
 
-    getAdsList();
-  }, [q, cat, state]);
+    const getAds = async () => {
+      const json = await getAdsList(qStr, catStr, stateStr, page);
+      dispatch(AnunciosActions.listarAnuncios(json.ads, json.total, json.page));
+    };
+
+    getAds();
+  }, [qStr, catStr, stateStr]);
 
   useEffect(() => {
     const getStates = async () => {

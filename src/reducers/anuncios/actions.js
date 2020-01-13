@@ -1,7 +1,8 @@
-export function listarAnuncios(anuncios, total) {
+export function listarAnuncios(anuncios, total, page) {
   return {
     type: "@anuncios/BUSCAR",
     anuncios,
-    total
+    total,
+    page
   };
 }

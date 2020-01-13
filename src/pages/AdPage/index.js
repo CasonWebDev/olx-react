@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import useApi from "helpers/OlxApi";
-import { ColAd as Col, Heading1, EmptyBox } from "./styled";
+import { ColAd as Col, OthersAds, Heading1, EmptyBox } from "./styled";
 import { Row, Image, Button, Breadcrumb } from "react-bootstrap";
 import { Slide } from "react-slideshow-image";
 import Moment from "react-moment";
@@ -19,7 +19,6 @@ const Page = () => {
   useEffect(() => {
     const getAdInfo = async id => {
       const json = await api.getAd(id, true);
-      console.log(json);
       setAdInfo(json);
     };
     getAdInfo(id);
@@ -71,11 +70,11 @@ const Page = () => {
               {adInfo.others && (
                 <>
                   <h4>Outras ofertas do vendedor</h4>
-                  <Row>
+                  <OthersAds columns={3}>
                     {adInfo.others.map((i, k) => (
                       <AdItem key={k} data={i} />
                     ))}
-                  </Row>
+                  </OthersAds>
                 </>
               )}
             </Col>
